@@ -24,8 +24,6 @@ int main(int argc, char *argv[])
     long unsigned int speed;
     long unsigned int total;
 
-    std::list<int> travel_list;
-
     memset(&ways_to_win, 0 , sizeof(ways_to_win));
     strcpy(file_name, "p6-input.txt");
 
