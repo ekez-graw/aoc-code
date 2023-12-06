@@ -1,4 +1,5 @@
 // (c) Leif Enblom
+#include <getopt.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,7 +7,10 @@
 int main(int argc, char *argv[])
 {
     FILE *file;
-    char file_name[32];
+    char file_name[64];
+    const char * file_path;
+    bool verbose = false;
+    int opt;
     char line[256];
     char *cursor;
     int characters;
@@ -24,8 +28,21 @@ int main(int argc, char *argv[])
     long unsigned int speed;
     long unsigned int total;
 
+    strncat( file_name, getenv( "AOC_DATA_PATH"), sizeof(file_name));
+
+    while ((opt = getopt(argc, argv, "vf:")) != -1) {
+        switch (opt) {
+            case 'f':
+                strncat( file_name, "/", sizeof(file_name));
+                strncat( file_name, optarg, sizeof(file_name));
+            break;
+            case 'v':
+                verbose = true;
+            break;
+        }
+    }
+
     memset(&ways_to_win, 0 , sizeof(ways_to_win));
-    strcpy(file_name, "p6-input.txt");
 
     if ((file = fopen(file_name, "r")) != NULL) {
         if (fgets(line, sizeof(line), file) != NULL) {
@@ -49,7 +66,7 @@ int main(int argc, char *argv[])
         }
 
         for (race = 0; race < number_of_races; race++) {
-            printf("Race %lu: Time to beat: %lu\n", race, time[race]);
+            if (verbose) printf("Race %lu: Time to beat: %lu\n", race, time[race]);
             time_spent = 0;
             distance_travelled = 0;
             for (button_time = 1; button_time < time[race]; button_time++) {
@@ -57,12 +74,12 @@ int main(int argc, char *argv[])
                 speed = button_time;
                 distance_travelled = speed * remaining_time;
                 if (distance_travelled > distance[race]) {
-                    printf("  button_time: %lu , distance_travelled: %lu\n", button_time, distance_travelled);
+                    if (verbose) printf("  button_time: %lu , distance_travelled: %lu\n", button_time, distance_travelled);
                     ways_to_win[race] += 1;
                 }
             }
 
-            printf("Race %lu: ways_to_win: %lu\n-------------------------\n", race, ways_to_win[race]);
+            if (verbose) printf("Race %lu: ways_to_win: %lu\n-------------------------\n", race, ways_to_win[race]);
         }
 
         total = 1;
@@ -74,7 +91,7 @@ int main(int argc, char *argv[])
         fclose(file);
     }
     else {
-        printf("ERROR: Could not open file %s\n", file_name);
+        if (verbose) printf("ERROR: Could not open file %s\n", file_name);
         return -1;
     }
 
