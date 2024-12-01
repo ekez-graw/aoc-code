@@ -1,3 +1,7 @@
+# Ignore directories
+_build/
+.vscode/
+
 # Prerequisites
 *.d
 
@@ -30,3 +34,6 @@
 *.exe
 *.out
 *.app
+
+# User-specific files
+UserConfig.cmake
