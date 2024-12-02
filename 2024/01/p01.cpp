@@ -38,6 +38,7 @@ int main(int argc, char** argv)
 
 	std::cout << "P01 Part 1: Sum of absolute differences: " << sum << std::endl;
 
+	sum = 0;
 	for (j = 0; j < i; j++) {
 		count = 0;
 		for (k = 0; k < i; k++) {
