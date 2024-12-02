@@ -33,6 +33,7 @@ endif()
 
 add_subdirectory(lib)
 add_subdirectory(01)
+add_subdirectory(02)
 
 # Add flags to strip symbols for Release builds
 if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Release")
