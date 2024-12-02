@@ -32,8 +32,13 @@ if(Boost_FOUND)
 endif()
 
 add_subdirectory(lib)
-add_subdirectory(01)
-add_subdirectory(02)
+if(TARGET_DIR)
+  add_subdirectory(${TARGET_DIR})
+else()
+  add_subdirectory(01)
+  add_subdirectory(02)
+  # Add other subdirectories as needed
+endif()
 
 # Add flags to strip symbols for Release builds
 if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Release")
