@@ -39,6 +39,7 @@ else()
   add_subdirectory(02)
   add_subdirectory(03)
   add_subdirectory(04)
+  add_subdirectory(05)
 endif()
 
 # Add flags to strip symbols for Release builds
