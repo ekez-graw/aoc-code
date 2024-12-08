@@ -38,6 +38,46 @@ void find_and_set_antinode(const vector<vector<char>>& antennas, vector<vector<c
 	}
 }
 
+void find_and_set_antinode_in_line(const vector<vector<char>>& antennas, vector<vector<char>>& antinodes, int in_y, int in_x)
+{
+	int max_rows = antennas.size();
+	int max_cols = antennas[0].size();
+	int slope_x;
+	int slope_y;
+	int new_x;
+	int new_y;
+	int x;
+
+	x = in_x + 1;
+	for (int y = in_y; y < max_rows; ++y) {
+		while (x < max_cols) {
+			if (antennas[y][x] == antennas[in_y][in_x]) {
+				slope_x = x - in_x;
+				slope_y = y - in_y;
+				new_x = x + slope_x;
+				new_y = y + slope_y;
+				while (new_x >= 0 && new_x < max_rows && new_y >= 0 && new_y < max_cols) {
+					antinodes[new_y][new_x] = '#';
+					new_y += slope_y;
+					new_x += slope_x;
+				}
+				
+				new_y -= slope_y;
+				new_x -= slope_x;
+				while (new_x >= 0 && new_x < max_rows && new_y >= 0 && new_y < max_cols) {
+					antinodes[new_y][new_x] = '#';
+					new_y -= slope_y;
+					new_x -= slope_x;
+				} 
+
+				break;
+			}
+			x++;
+		}
+		x = 0;
+	}
+}
+
 int main(int argc, char** argv)
 {
 	AoCOptions options(argc, argv);
@@ -77,6 +117,29 @@ int main(int argc, char** argv)
 	}
 
 	cout << "P08 Part 1: Total antinodes: " << total_antinodes << endl;
+
+	for (int y = 0; y < max_rows; ++y)
+		std::fill(antinodes[y].begin(), antinodes[y].end(), '.');
+	total_antinodes = 0;
+
+	for (int y = 0; y < max_rows; ++y) {
+		for (int x = 0; x < max_cols ; ++x) {
+			if (antennas[y][x] != '.') {
+				find_and_set_antinode_in_line(antennas, antinodes, y, x);
+			}
+		}
+	}
+
+
+	for (int y = 0; y < max_rows; ++y) {
+		for (int x = 0; x < max_cols; ++x) {
+			if (antinodes[y][x] == '#') {
+				total_antinodes++;
+			}
+		}
+	}
+
+	cout << "P08 Part 2: Total antinodes in line: " << total_antinodes << endl;
 
 	return 0;
 }
