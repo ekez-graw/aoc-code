@@ -7,16 +7,18 @@ fi
 
 run_folder() {
 	local folder=$1
+	first_folder=$(echo $folder | cut -d'/' -f1)
+	second_folder=$(echo $folder | cut -d'/' -f2)
 	if [ -z "$2" ]; then
-		INPUT_FILE=$AOC_DATA_PATH/"p$folder-input.txt"
+		INPUT_FILE=$AOC_DATA_PATH/"$first_folder/p$second_folder-input.txt"
 	elif [ "$2" == "example" ]; then
-		INPUT_FILE="$AOC_DATA_PATH/p$folder-example-input.txt"
+		INPUT_FILE=$AOC_DATA_PATH/"$first_folder/p$second_folder-example-input.txt"
 	else
 		echo "Invalid input argument: $2"
 		exit 1
 	fi
-	cd _build/$folder/$folder
-	$(pwd)/p$folder --input-file $INPUT_FILE
+	cd _build
+	$(pwd)/$folder/p$second_folder --input-file $INPUT_FILE
 }
 
 if [ -z "$1" ]; then

@@ -2,7 +2,7 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/UserConfig.cmake OPTIONAL)
 
 cmake_minimum_required(VERSION 3.7)
-project(AOC2024)
+project(AOC)
 
 # Set the build type if not specified
 if(NOT CMAKE_BUILD_TYPE)
@@ -31,19 +31,13 @@ if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
+add_subdirectory(lib)
+
 if(TARGET_DIR)
   add_subdirectory(${TARGET_DIR})
 else()
-  add_subdirectory(01)
-  add_subdirectory(02)
-  add_subdirectory(03)
-  add_subdirectory(04)
-  add_subdirectory(05)
-  add_subdirectory(06)
-  add_subdirectory(07)
-  add_subdirectory(08)
-  add_subdirectory(09)
-  endif()
+  add_subdirectory(2024)
+endif()
 
 # Add flags to strip symbols for Release builds
 if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Release")

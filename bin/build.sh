@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export AOC_DATA_PATH="/home/dad/src/aoc/aoc-data/2024/"
+export AOC_DATA_PATH="/home/dad/src/aoc/aoc-data/"
 
 purge=false
 
@@ -17,12 +17,12 @@ fi
 
 build_folder() {
 	local folder=$1
-	mkdir -p _build/$folder
-	cd _build/$folder
+	mkdir -p _build/
+	cd _build/
 	echo "Building in folder: $(pwd)"
-	cmake -DTARGET_DIR=$folder ../..
+	cmake -DTARGET_DIR=$folder ..
 	make
-	cd ../..
+	cd ..
 }
 
 echo "Current path: $(pwd)"
