@@ -49,7 +49,7 @@ void print_yellow(const vector<vector<char>>& matrix, int x, int y)
 	// cout << endl;
 }
 
-void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int row_max, int col_max, vector<vector<bool>>& bool_matrix)
+void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int row_max, int col_max, vector<vector<bool>>& bool_matrix, long long& distinct_trailheads)
 {
 	int int_matrix = matrix[y][x] - '0';
 
@@ -60,6 +60,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 		int_matrix = matrix[y][x-1] - '0';
 		if (int_matrix == count + 1) {
 			if (int_matrix == 9) {
+				distinct_trailheads++;
 				if (bool_matrix[y][x-1] == false) {
 					bool_matrix[y][x-1] = true;
 					print_red(matrix, x - 1, y);
@@ -69,7 +70,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 				}
 			}
 			else {
-				next_hop(matrix, count + 1, x - 1, y, row_max, col_max, bool_matrix);
+				next_hop(matrix, count + 1, x - 1, y, row_max, col_max, bool_matrix, distinct_trailheads);
 			}
 		}
 	}
@@ -78,6 +79,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 		int_matrix = matrix[y-1][x] - '0';
 		if (int_matrix == count + 1) {
 			if (int_matrix == 9) {
+				distinct_trailheads++;
 				if (bool_matrix[y-1][x] == false) {
 					bool_matrix[y-1][x] = true;
 					print_red(matrix, x, y - 1);
@@ -87,7 +89,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 				}
 			}
 			else {
-				next_hop(matrix, count + 1, x, y-1, row_max, col_max, bool_matrix);
+				next_hop(matrix, count + 1, x, y-1, row_max, col_max, bool_matrix, distinct_trailheads);
 			}
 		}
 	}
@@ -96,6 +98,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 		int_matrix = matrix[y][x+1] - '0';
 		if (int_matrix == count + 1) {
 			if (int_matrix == 9) {
+				distinct_trailheads++;
 				if (bool_matrix[y][x+1] == false) {
 					bool_matrix[y][x+1] = true;
 					print_red(matrix, x + 1, y);
@@ -105,7 +108,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 				}
 			}
 			else {
-				next_hop(matrix, count + 1, x+1, y, row_max, col_max, bool_matrix);
+				next_hop(matrix, count + 1, x+1, y, row_max, col_max, bool_matrix, distinct_trailheads);
 			}
 		}
 	}
@@ -114,6 +117,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 		int_matrix = matrix[y+1][x] - '0';
 		if (int_matrix == count + 1) {
 			if (int_matrix == 9) {
+				distinct_trailheads++;
 				if (bool_matrix[y+1][x] == false) {
 					bool_matrix[y+1][x] = true;
 					print_red(matrix, x, y + 1);
@@ -124,7 +128,7 @@ void next_hop(const vector<vector<char>>& matrix, int count, int x, int y, int r
 
 			}
 			else {
-				next_hop(matrix, count + 1, x, y + 1, row_max, col_max, bool_matrix);
+				next_hop(matrix, count + 1, x, y + 1, row_max, col_max, bool_matrix, distinct_trailheads);
 			}
 		}
 	}
@@ -154,11 +158,13 @@ int main(int argc, char** argv)
 
 	vector<vector<bool>> bool_matrix(row_max, vector<bool>(col_max, false));
 
+	long long distinct_trailheads = 0;
+
 	for (int y = 0; y < row_max; ++y) {
 		for (int x = 0; x < col_max; ++x) {
 			if (matrix[y][x] == '0') {
 				fill(bool_matrix.begin(), bool_matrix.end(), vector<bool>(col_max, false));
-				next_hop(matrix, 0, x, y, row_max, col_max, bool_matrix);
+				next_hop(matrix, 0, x, y, row_max, col_max, bool_matrix, distinct_trailheads);
 				int count_true = 0;
 				for (const auto& row : bool_matrix) {
 					count_true += count(row.begin(), row.end(), true);
@@ -169,6 +175,7 @@ int main(int argc, char** argv)
 	}
 
 	cout << "P10: Part 1: Trailheads: " << total_trailheads << endl;
+	cout << "P10: Part 2: Distinct Trailheads: " << distinct_trailheads << endl;
 
     return 0;
 }
