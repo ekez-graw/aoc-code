@@ -29,8 +29,8 @@ int main(int argc, char** argv)
 				dial = (dial - value + 100) % 100;
 			else if (c == 'R')
 				dial = (dial + value) % 100;
-
-			// std::cout << "Dial turned " << c << value << " to " << dial << "\n";
+			if (options.is_verbose())
+				std::cout << "Dial turned " << c << value << " to " << dial << "\n";
 		}
 
 		if (dial == 0)
@@ -72,7 +72,8 @@ int main(int argc, char** argv)
 			}
 
 			password += crossings;
-			// std::cout << "Dial turned " << c << value << " to " << dial << " (crossed zero " << crossings << " time(s))\n";
+			if (options.is_verbose())
+				std::cout << "Dial turned " << c << value << " to " << dial << " (crossed zero " << crossings << " time(s))\n";
 		}
 	}
 
