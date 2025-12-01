@@ -10,6 +10,7 @@ class AoCOptions
 		AoCOptions(int argc, char** argv);
 		~AoCOptions();
 		std::string get_input_file() const;
+		bool is_verbose() const;
 
 private:
 	// Forward declaration of boost::program_options::variables_map

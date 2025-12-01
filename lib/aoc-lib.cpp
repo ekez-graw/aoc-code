@@ -59,3 +59,8 @@ std::string AoCOptions::get_input_file() const
         return "";
     }
 }
+
+bool AoCOptions::is_verbose() const
+{
+    return vm->vm.count("verbose") > 0;
+}
