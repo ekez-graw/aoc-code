@@ -35,7 +35,8 @@ if(TARGET_DIR)
   add_subdirectory(${TARGET_DIR})
 else()
   add_subdirectory(01)
-  endif()
+  add_subdirectory(02)
+endif()
 
 # Add flags to strip symbols for Release builds
 if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Release")
