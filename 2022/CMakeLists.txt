@@ -2,7 +2,7 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/UserConfig.cmake OPTIONAL)
 
 cmake_minimum_required(VERSION 3.7)
-project(AOC)
+project(AOC2022)
 
 # Set the build type if not specified
 if(NOT CMAKE_BUILD_TYPE)
@@ -31,24 +31,21 @@ if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-add_subdirectory(lib)
-
 if(TARGET_DIR)
   # if TARGET_DIR is a nested path (year/day) add it directly
   if(TARGET_DIR MATCHES "/")
     add_subdirectory(${TARGET_DIR})
   else()
-    # building a single year: prevent the year's CMakeLists from seeing TARGET_DIR
-    set(_saved_TARGET_DIR "${TARGET_DIR}")
-    unset(TARGET_DIR)
-    add_subdirectory(${_saved_TARGET_DIR})
-    # restore TARGET_DIR for callers
-    set(TARGET_DIR "${_saved_TARGET_DIR}")
+    # avoid adding "2022/2022" when TARGET_DIR was passed as the year name
+    get_filename_component(_this_dir ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+    if(NOT TARGET_DIR STREQUAL _this_dir)
+      add_subdirectory(${TARGET_DIR})
+    else()
+      add_subdirectory(01)
+    endif()
   endif()
 else()
-  # add_subdirectory(2022)
-  add_subdirectory(2024)
-  add_subdirectory(2025)
+  add_subdirectory(01)
 endif()
 
 # Add flags to strip symbols for Release builds

@@ -32,7 +32,18 @@ if(Boost_FOUND)
 endif()
 
 if(TARGET_DIR)
-  add_subdirectory(${TARGET_DIR})
+  # if TARGET_DIR is a nested path (year/day) add it directly
+  if(TARGET_DIR MATCHES "/")
+    add_subdirectory(${TARGET_DIR})
+  else()
+    # only add TARGET_DIR if it actually exists as a subdirectory of this year
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_DIR}/CMakeLists.txt")
+      add_subdirectory(${TARGET_DIR})
+    else()
+      # fallback: build the default day(s) for this year
+      add_subdirectory(01)
+    endif()
+  endif()
 else()
   add_subdirectory(01)
   add_subdirectory(02)

@@ -10,4 +10,4 @@ p1: $(OBJECTS)
 	$(CC) $(CXXFLAGS) -o p1 $(OBJECTS) $(LDFLAGS) 
 
 clean:
-	rm p1 *.o 
+	rm 25p01 *.o 
